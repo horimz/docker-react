@@ -7,3 +7,16 @@ before_install:
 
 script:
   - docker run -e CI=true horimz/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk # There are many pre-configured providers
+  region: 'us-east-2' # http://dockerreact-env.pitzmg2rve.us-east-2.elasticbeanstalk.com/
+  name: 'docker-react' # Application name
+  env: 'DockerReact-env' # Environment name
+  bucket_name: elasticbeanstalk-us-east-2-574541530263 # Search s3 in AWS Services and copy the bucket name
+  bucket_path: 'docker-react' # The default bucket_path is the same as the name
+  on:
+    branch: master # Any time when code is pushed to master deploy it
+  access_key_id: '$AWS_ACCESS_KEY'
+  secret_access_key:
+    secure: '$AWS_SECRET_KEY'
